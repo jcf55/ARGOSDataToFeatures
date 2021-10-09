@@ -20,14 +20,22 @@ outputFC = "D:/ARGOSTracking/Scratch/ARGOStrack.shp"
 
 #%% Construct a while loop to iterate through all lines in the datafile
 # Open the ARGOS data file for reading
+# Import modules
+import sys, os, arcpy
+
+# Set input variables (Hard-wired)
+inputFile = '../Data/ARGOSData/1997dg.txt'
+outputFC = '../Scratch/ARGOStrack.shp'
+
+## Construct a while loop to iterate through all lines in the datafile
+# Open the ARGOS data file for reading
 inputFileObj = open(inputFile,'r')
 
 # Get the first line of data, so we can use a while loop
 lineString = inputFileObj.readline()
-
-# Start the while loop
 while lineString:
-    #We have 7 lines of information that we want to skip before we start read
+    
+   #We have 7 lines of information that we want to skip before we start read
     #Set the code to run only if the line contains the string "Date :"
     #This means if Date : is in the line that we are reading....
     #code below that is indented will only be run if this is true
@@ -38,6 +46,9 @@ while lineString:
         
         # Extract attributes from the datum header line
         tagID = lineData[0]
+        obsDate = lineData[3]
+        obsTime = lineData[4]
+        obsLC = lineData[7]
         
         #Because this data is on a different line we need it to read this
         # Extract location info from the next line
@@ -51,7 +62,7 @@ while lineString:
         obsLon= line2Data[5]
         
         # Print results to see how we're doing
-        print (tagID,"Lat:"+obsLat,"Long:"+obsLon)
+        print (tagID,obsDate,obsTime,obsLC,"Lat:"+obsLat,"Long:"+obsLon)
         
     # Move to the next line so the while loop progresses
     lineString = inputFileObj.readline()
