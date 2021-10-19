@@ -18,12 +18,17 @@ arcpy.env.overwriteOutput = True
 
 # Set input variables (Hard-wired)
 inputFile = 'D:/ARGOSTracking/Data/ARGOSData/1997dg.txt'
-outputSR = arcpy.SpatialReference(53002)
+outputSR = arcpy.SpatialReference(54002)
 outputFC = "D:/ARGOSTracking/Scratch/ARGOStrack.shp"
 
 # Create feature class to which we will add features
 outPath, outFile = os.path.split(outputFC)
 arcpy.management.CreateFeatureclass(outPath, outFile,"POINT",'','','',outputSR)
+
+# Add TagID, LC, IQ, and Date fields to the output feature class
+arcpy.AddField_management(outputFC,"TagID","LONG")
+arcpy.AddField_management(outputFC,"LC","TEXT")
+arcpy.AddField_management(outputFC,"Date","DATE")
 
 #%% Construct a while loop and iterate through all lines in the data file
 # Open the ARGOS data file
